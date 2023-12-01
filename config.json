@@ -1,0 +1,5 @@
+{
+  "IdStoragePath": "pkg/idstorage/data/simple.json",
+  "SyncPeriod": 10,
+  "BufferSize": 256
+}
