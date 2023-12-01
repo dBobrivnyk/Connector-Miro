@@ -85,7 +85,7 @@ func (c *Client) GetBoards(ctx context.Context) ([]Board, error) {
 	}
 	defer resp.Body.Close()
 
-	var boards Boards //TODO: Boards struct ??
+	var boards Boards
 	err = json.NewDecoder(resp.Body).Decode(&boards)
 	if err != nil {
 		return nil, fmt.Errorf("failed to decode response: %w", err)
