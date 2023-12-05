@@ -1,7 +1,7 @@
 package miro
 
 import (
-	"connectors/internal"
+	config "connectors/internal"
 	"connectors/pkg/sink"
 	"context"
 	"fmt"
@@ -13,6 +13,12 @@ import (
 
 const ApiUrl = "https://api.miro.com/v2/"
 
+// tests ??
+// for http.Client you can create proper interface
+// in test add mock
+// and then you can create proper tests
+// use this or any other option to mock http call
+// https://github.com/stretchr/testify#mock-package
 type Client struct {
 	cfg     *config.Config
 	client  *http.Client

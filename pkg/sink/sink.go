@@ -11,6 +11,7 @@ import (
 	"path/filepath"
 )
 
+// why no tests?
 type Sink struct {
 	clientChan    chan entities.Entity
 	readingIsDone chan struct{}
@@ -46,10 +47,14 @@ func (s *Sink) Push(e entities.Entity) {
 	s.clientChan <- e
 }
 
+// consider using io.ReadCloser or function returning io.ReadCloser, error
+// add proper test
+// similar concept to https://github.com/gciezkowskiobjectivity/connectors/blob/main/pkg/idstorage/idstorage.go
 func (s *Sink) Dump() ([]entities.Entity, error) {
 	<-s.readingIsDone
 
 	for _, e := range s.allEntities {
+		// revers logic, no nested if
 		if e.IsFile {
 			err := s.downloadFile(e.ExternalId+"."+filepath.Ext(e.ContentUrl), e.ContentUrl)
 			if err != nil {
@@ -63,6 +68,7 @@ func (s *Sink) Dump() ([]entities.Entity, error) {
 		return nil, fmt.Errorf("failed to marshal entities: %w", err)
 	}
 
+	// close file/io.ReadCloser in defer
 	file, err := os.Create(fmt.Sprintf("%s.json", s.ownerId))
 	if err != nil {
 		return nil, fmt.Errorf("failed to create file: %w", err)
